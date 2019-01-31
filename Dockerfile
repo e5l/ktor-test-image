@@ -4,7 +4,9 @@ RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 RUN export JDK_16=/usr/lib/jvm/java-11-openjdk-amd64
 RUN export JDK_17=/usr/lib/jvm/java-11-openjdk-amd64
 RUN export JDK_18=/usr/lib/jvm/java-11-openjdk-amd64
-
+RUN export JDK_16_x64=/usr/lib/jvm/java-11-openjdk-amd64
+RUN export JDK_17_x64=/usr/lib/jvm/java-11-openjdk-amd64
+RUN export JDK_18_x64=/usr/lib/jvm/java-11-openjdk-amd64
 
 # headless chrome & ktor dependencies
 RUN apt update && apt install -yq openjdk-11-jdk nodejs npm gconf-service \
