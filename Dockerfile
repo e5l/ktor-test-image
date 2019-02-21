@@ -4,9 +4,6 @@ RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 RUN export JDK_16=/usr/lib/jvm/java-11-openjdk-amd64
 RUN export JDK_17=/usr/lib/jvm/java-11-openjdk-amd64
 RUN export JDK_18=/usr/lib/jvm/java-11-openjdk-amd64
-RUN export JDK_16_x64=/usr/lib/jvm/java-11-openjdk-amd64
-RUN export JDK_17_x64=/usr/lib/jvm/java-11-openjdk-amd64
-RUN export JDK_18_x64=/usr/lib/jvm/java-11-openjdk-amd64
 
 # headless chrome & ktor dependencies
 RUN apt update && apt install -yq openjdk-11-jdk nodejs npm gconf-service \
@@ -15,5 +12,5 @@ RUN apt update && apt install -yq openjdk-11-jdk nodejs npm gconf-service \
     libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 \
     libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 \
     libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget \
-    libcurl4 \
+    libcurl4 libcurl4-gnutls-dev \
     git unzip
