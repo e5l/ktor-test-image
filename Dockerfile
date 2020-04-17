@@ -14,6 +14,7 @@ RUN apt update && apt install -yq openjdk-8-jdk nodejs npm gconf-service \
     libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 \
     libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget \
     libcurl4 libcurl4-gnutls-dev \
+    libgbm1 \
     git unzip \
     curl
 
