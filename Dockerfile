@@ -7,7 +7,7 @@ RUN export JDK_18=/usr/lib/jvm/java-11-openjdk-amd64
 RUN export ANDROID_SDK_ROOT=/usr/local/android-sdk
 
 # headless chrome & ktor dependencies
-RUN apt update && apt install -yq openjdk-8-jdk nodejs npm gconf-service \
+RUN apt-get update && apt install -yq openjdk-8-jdk nodejs npm gconf-service \
     libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
     libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 \
     libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 \
@@ -39,5 +39,5 @@ RUN $ANDROID_HOME/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSIO
     "platforms;android-${ANDROID_VERSION}" \
     "platform-tools"
 
-RUN apt install -yq openjdk-11-jdk
+RUN apt-get install -yq openjdk-11-jdk
 RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
