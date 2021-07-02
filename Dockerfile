@@ -1,4 +1,4 @@
-FROM ubuntu:21.10
+FROM ubuntu:21.04
 
 RUN export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 RUN export JDK_16=/usr/lib/jvm/java-11-openjdk-amd64
