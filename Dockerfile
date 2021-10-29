@@ -18,7 +18,8 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get install -yq openjdk-8-jdk nodejs np
     libcurl4 libcurl4-gnutls-dev \
     libgbm1 \
     git unzip \
-    curl
+    curl \
+    libncurses5
 
 ENV SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip" \
     ANDROID_HOME="/usr/local/android-sdk" \
