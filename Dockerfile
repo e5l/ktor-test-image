@@ -44,3 +44,4 @@ RUN $ANDROID_HOME/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSIO
 
 RUN apt-get install -yq openjdk-11-jdk
 RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+RUN export JAVA_HOME=$(/usr/libexec/java_home)" >> ~/.bash_profile
