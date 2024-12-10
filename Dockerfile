@@ -1,25 +1,31 @@
-FROM ubuntu:23.10
+# syntax=docker/dockerfile:1
+# check=skip=FromPlatformFlagConstDisallowed
+FROM --platform=linux/amd64 eclipse-temurin:21-jdk-noble
 
-RUN export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-RUN export JDK_16=/usr/lib/jvm/java-11-openjdk-amd64
-RUN export JDK_17=/usr/lib/jvm/java-11-openjdk-amd64
-RUN export JDK_18=/usr/lib/jvm/java-11-openjdk-amd64
+ENV JDK_21_0=$JAVA_HOME
 
-RUN apt-get update
+COPY chrome-dependencies.txt /tmp/chrome-dependencies.txt
 
-# headless chrome & ktor dependencies
-RUN DEBIAN_FRONTEND='noninteractive' apt install -yq openjdk-8-jdk nodejs npm \
-    libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
-    libexpat1 libfontconfig1 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 \
-    libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 \
-    libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 \
-    libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget \
-    libcurl4 libcurl4-gnutls-dev \
-    libgbm1 \
-    git unzip \
-    curl \
-    libncurses6 \
-    openjdk-11-jdk
+RUN <<EOT bash
+  set -exo pipefail
 
-RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-RUN export "JAVA_HOME=$(/usr/libexec/java_home)" >> ~/.bash_profile
+  # Add Adoptium repository to download Eclipse Temurin JDK
+  # https://adoptium.net/installation/linux/#_deb_installation_on_debian_or_ubuntu
+  wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null
+  echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
+
+  # Make apt-get non-interactive
+  export DEBIAN_FRONTEND=noninteractive
+
+  # Headless Chrome & Ktor dependencies
+  # https://pptr.dev/guides/system-requirements
+  # https://github.com/ktorio/ktor/blob/main/CONTRIBUTING.md#building-the-project
+  apt-get update
+  apt-get install --yes --no-install-recommends \
+    git unzip curl wget ca-certificates \
+    $(grep --invert-match '^#' /tmp/chrome-dependencies.txt | tr '\n' ' ') \
+    libcurl4-openssl-dev libncurses-dev \
+    temurin-8-jdk
+  apt-get clean
+  rm -rf /var/lib/apt/lists/* /tmp/chrome-dependencies.txt
+EOT
