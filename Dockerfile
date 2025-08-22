@@ -28,4 +28,7 @@ RUN <<EOT bash
     temurin-8-jdk
   apt-get clean
   rm -rf /var/lib/apt/lists/* /tmp/chrome-dependencies.txt
+
+  # Install Rust and Cargo using rustup for `ktor-client-webrtc-rs`
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
 EOT
