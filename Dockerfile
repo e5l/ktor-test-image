@@ -24,7 +24,7 @@ RUN <<EOT bash
   apt-get install --yes --no-install-recommends \
     git unzip curl wget ca-certificates \
     $(grep --invert-match '^#' /tmp/chrome-dependencies.txt | tr '\n' ' ') \
-    libcurl4-openssl-dev libncurses-dev \
+    libcurl4-openssl-dev libncurses-dev libatomic1 \
     temurin-8-jdk
   apt-get clean
   rm -rf /var/lib/apt/lists/* /tmp/chrome-dependencies.txt
