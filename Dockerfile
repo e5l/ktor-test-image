@@ -14,6 +14,11 @@ RUN <<EOT bash
   wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null
   echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
 
+  # Add Bazel repository to download and install Bazel
+  # https://bazel.build/install/ubuntu#install-on-ubuntu
+  wget -qO - https://bazel.build/bazel-release.pub.gpg | gpg --dearmor | tee /usr/share/keyrings/bazel-archive-keyring.gpg > /dev/null
+  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list
+
   # Make apt-get non-interactive
   export DEBIAN_FRONTEND=noninteractive
 
@@ -25,10 +30,13 @@ RUN <<EOT bash
     git unzip curl wget ca-certificates \
     $(grep --invert-match '^#' /tmp/chrome-dependencies.txt | tr '\n' ' ') \
     nodejs npm \
-    libcurl4-openssl-dev libncurses-dev libatomic1 \
+    libcurl4-openssl-dev libncurses-dev libatomic1 bazel-8.5.0 python3 \
     temurin-8-jdk
   apt-get clean
   rm -rf /var/lib/apt/lists/* /tmp/chrome-dependencies.txt
+
+  # Link bazel command to correct binary
+  ln -sf /usr/bin/bazel-8.5.0 /usr/bin/bazel
 
   # Install Rust and Cargo using rustup for `ktor-client-webrtc-rs`
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
